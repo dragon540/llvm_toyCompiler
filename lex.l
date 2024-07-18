@@ -1,28 +1,24 @@
 %{
 #include <stdio.h>
 #include "node.h"
-void showError();
-void printInt();
-void printInt();
+void showToken();
 %}
 
 %%
 
-[a-zA-Z]+     { printStr();  return (STRING); }
-[0-9]+        { printInt();  return (NUMBER); }
-.             { showError(); return (OTHER); }
+[0-9]+              { showToken(INT); return (INT); }
+[a-zA-Z]            { showToken(CHAR); return (CHAR); }
+["]+[a-zA-Z]+["]    { showToken(STRING); return (STRING); }
+"("                 { showToken(LEFT_PAREN); return (LEFT_PAREN); }
+")"                 { showToken(RIGHT_PAREN); return (RIGHT_PAREN); }
+"{"                 { showToken(LEFT_CURLY); return (LEFT_CURLY); }
+"}"                 { showToken(RIGHT_CURLY); return (RIGHT_CURLY); }
+";"                 { showToken(TERMINATE); return (TERMINATE); }
+"return"            { showToken(RETURN); return (RETURN); }
+.                   { showToken(OTHER); return (OTHER); }
 
 %%
 
-void showError() {
-	printf("Invalid token\n");
+void showToken(int type) {
+	printf("TYPE : %d\nVALUE : %d\n", type, yytext);
 }
-
-void printInt() {
-	printf("integer\n");
-}
-
-void printStr() {
-        printf("string\n");
-}
-

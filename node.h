@@ -2,9 +2,17 @@
 #define NODE_H
 
 enum {
-	STRING=1,
-	NUMBER=0,
-	OTHER=3
+	INT=1,
+	CHAR,
+	STRING,
+	IDEN,
+	LEFT_PAREN,
+	RIGHT_PAREN,
+	LEFT_CURLY,
+	RIGHT_CURLY,
+	TERMINATE,
+	RETURN,
+	OTHER
 };
 
 #endif /* NODE_H */
