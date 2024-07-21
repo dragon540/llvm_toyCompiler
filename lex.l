@@ -1,12 +1,15 @@
 %{
 #include <stdio.h>
 #include "node.h"
-void showToken();
+#include "test.tab.h"
+void showToken(int type);
 %}
+
+%option noyywrap
 
 %%
 
-[0-9]+              { showToken(INT); return (INT); }
+[0-9]+              { showToken(INT); yylval.number = atoi(yytext); return (INT); }
 [a-zA-Z]            { showToken(CHAR); return (CHAR); }
 ["]+[a-zA-Z]+["]    { showToken(STRING); return (STRING); }
 "("                 { showToken(LEFT_PAREN); return (LEFT_PAREN); }
@@ -20,5 +23,10 @@ void showToken();
 %%
 
 void showToken(int type) {
-	printf("TYPE : %d\nVALUE : %d\n", type, yytext);
+	printf("TYPE : %d\nVALUE : %s\n", type, yytext);
+}
+
+int main() {
+    yylex();
+    return 0;
 }
