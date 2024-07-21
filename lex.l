@@ -1,6 +1,6 @@
 %{
 #include <stdio.h>
-#include "node.h"
+//#include "node.h"
 #include "test.tab.h"
 void showToken(int type);
 %}
@@ -9,9 +9,11 @@ void showToken(int type);
 
 %%
 
-[0-9]+              { showToken(INT); yylval.number = atoi(yytext); return (INT); }
-[a-zA-Z]            { showToken(CHAR); return (CHAR); }
-["]+[a-zA-Z]+["]    { showToken(STRING); return (STRING); }
+[ \t\n]             ;
+[0-9]+              { showToken(NUMBER); yylval.num = atoi(yytext); return (NUMBER); }
+[a-zA-Z]            { showToken(CHAR); yylval.c = yytext[0]; return (CHAR); }
+["][a-zA-Z]+["]     { showToken(STRING); sscanf(yytext, "%s", yylval.str); return (STRING); }
+[a-zA-Z]+           { showToken(IDEN); sscanf(yytext, "%s", yylval.iden); return (IDEN); }
 "("                 { showToken(LEFT_PAREN); return (LEFT_PAREN); }
 ")"                 { showToken(RIGHT_PAREN); return (RIGHT_PAREN); }
 "{"                 { showToken(LEFT_CURLY); return (LEFT_CURLY); }
@@ -23,10 +25,13 @@ void showToken(int type);
 %%
 
 void showToken(int type) {
+    int a = 66;
+    /**
 	printf("TYPE : %d\nVALUE : %s\n", type, yytext);
+	**/
 }
 
-int main() {
+/**int main() {
     yylex();
     return 0;
-}
+}**/
