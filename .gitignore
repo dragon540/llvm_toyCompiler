@@ -1,0 +1,8 @@
+*.o
+*.yy.c
+*.tab
+*.tab.c
+*.tab.h
+*.tab.o
+ast
+.idea/
