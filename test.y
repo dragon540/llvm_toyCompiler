@@ -4,24 +4,27 @@ extern int yylex();
 void yyerror(const char *s);
 %}
 
-%token NUMBER CHAR STRING INT_TYPE CHAR_TYPE BOOL_TYPE IDEN LEFT_PAREN RIGHT_PAREN LEFT_CURLY RIGHT_CURLY TERMINATE EQUAL RETURN OTHER
-
-%type <name> STRING
-%type <number> NUMBER
-%type <iden> IDEN
-%type <c> TERMINATE
-%type <dtype> INT_TYPE
-%type <dtype> CHAR_TYPE
-%type <dtype> BOOL_TYPE
+%token<num> NUMBER
+%token<c> CHAR
+%token RETURN
+%token<str> STRING
+%token INT_TYPE
+%token CHAR_TYPE
+%token BOOL_TYPE
+%token<name> IDEN
+%token LEFT_PAREN
+%token RIGHT_PAREN
+%token LEFT_CURLY
+%token RIGHT_CURLY
+%token TERMINATE
+%token EQUAL
+%token OTHER
 
 %union {
     int num;
     char c;
     char str[20];
-    char iden[20];
-    char term;
-    char plus;
-    char dtype[10];
+    char name[20];
 }
 
 %%
@@ -43,6 +46,4 @@ equal: EQUAL
 void yyerror (const char *s) {
    fprintf (stderr, "%s\n", s);
 }
-
-
 
