@@ -1,4 +1,5 @@
 %{
+
 #include "node.h"
 #include <stdio.h>
 extern int yylex();
@@ -21,32 +22,44 @@ void yyerror(const char *s);
 %token EQUAL
 %token OTHER
 
+%type <nodeptr> prog;
+%type <stmtptr> stmt;
+%type <valueptr> value;
+%type <typeptr> type;
+%type <eqptr> equal;
+
 %union {
     int num;
     char c;
     char str[20];
     char name[20];
+
+    class StatementNode *stmtptr;
+    class TypeNode  *typeptr;
+    class ValueNode *valueptr;
+    class EqNode *eqptr; 
+    class Node *nodeptr;
 }
 
 %%
 
-prog: stmt { printf("parsing prog\n"); }
+prog: stmt { printf("parsing prog\n"); $$ = new Node(); }
     ;
 
-stmt: type IDEN equal value TERMINATE { printf("parsing stmt\n"); }
+stmt: type IDEN equal value TERMINATE { printf("parsing stmt\n"); $$ = new StatementNode(); }
     ;
 
-value: NUMBER { printf("number value\n"); }
-     | CHAR {printf("char value\n"); }
-     | STRING {printf("string value\n"); }
+value: NUMBER { printf("number value = %d\n", $1); $$ = new ValueNode(); ($$->val).intVal = $1; }
+     | CHAR {printf("char value = %c\n", $1); $$ = new ValueNode(); ($$->val).charVal = $1; }
+     | STRING {printf("string value = %s\n", $1); }
      ;
 
-type: INT_TYPE { printf("int\n"); }
-    | CHAR_TYPE {printf("char\n"); }
-    | BOOL_TYPE { printf("bool\n"); }
+type: INT_TYPE { printf("int\n"); $$ = new TypeNode(); $$->typeId = 1; }
+    | CHAR_TYPE {printf("char\n"); $$ = new TypeNode(); $$->typeId = 2; }
+    | BOOL_TYPE { printf("bool\n"); $$ = new TypeNode(); $$->typeId = 3; }
     ;
 
-equal: EQUAL { printf("equal\n"); }
+equal: EQUAL { printf("equal\n"); $$ = new EqNode(); }
     ;
 
 %%
