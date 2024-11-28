@@ -1,4 +1,5 @@
 %{
+#include "node.h"
 #include <stdio.h>
 extern int yylex();
 void yyerror(const char *s);
@@ -29,16 +30,23 @@ void yyerror(const char *s);
 
 %%
 
-prog: stmt
+prog: stmt { printf("parsing prog\n"); }
     ;
 
-stmt: type IDEN equal NUMBER TERMINATE { printf("statement\n"); }
+stmt: type IDEN equal value TERMINATE { printf("parsing stmt\n"); }
     ;
 
-type: INT_TYPE | CHAR_TYPE | BOOL_TYPE
+value: NUMBER { printf("number value\n"); }
+     | CHAR {printf("char value\n"); }
+     | STRING {printf("string value\n"); }
+     ;
+
+type: INT_TYPE { printf("int\n"); }
+    | CHAR_TYPE {printf("char\n"); }
+    | BOOL_TYPE { printf("bool\n"); }
     ;
 
-equal: EQUAL
+equal: EQUAL { printf("equal\n"); }
     ;
 
 %%

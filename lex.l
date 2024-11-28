@@ -47,7 +47,9 @@ void printText(char str[]);
 // user subroutine section
  
 void showToken(int type) {
-	printf("TYPE : %d\nVALUE : %s\n", type, yytext);
+	type = 1;
+	//printf("TYPE : %d\nVALUE : %s\n", type, yytext);
+
 }
 
 void printText(char str[]) {
